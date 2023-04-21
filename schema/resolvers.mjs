@@ -28,4 +28,9 @@ export const resolvers = {
       return lodash.find(movieList, { name });
     },
   },
+  User: {
+    favoriteMovies: () => {
+      return lodash.filter(movieList, (movie) => movie.yop >= 2000 && movie.yop <= 2010)
+    }
+  }
 };
