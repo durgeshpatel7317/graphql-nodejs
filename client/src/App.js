@@ -1,6 +1,6 @@
 import "./App.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import DisplaData from "./DisplayDate";
+import DisplaData from "./DisplayData";
 
 // userQuery hook is used to query the graphql server
 // useMutation hook is used to mutate the data on graphql server
