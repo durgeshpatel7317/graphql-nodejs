@@ -1,14 +1,36 @@
 import React, { useState } from "react";
 import { useQuery, useLazyQuery, gql, useMutation } from "@apollo/client";
+import { USERS_COMMON_FIELD } from "./GqlFragments";
+
+// Sample query for all users using union
+// query GetAllUsers {
+//   users {
+//     ...on UsersSuccessResult {
+//       users {
+//         id
+//         name
+//         age
+//         nationality
+//       }
+//     }
+//     ...on UsersErrorResult {
+//       message
+//     }
+//   }
+// }
 
 const QUERY_ALL_USERS = gql`
+  ${USERS_COMMON_FIELD}
   query GetAllUsers {
     users {
-      id
-      name
-      age
-      gender
-      nationality
+      ... on UsersSuccessResult {
+        users {
+          ...GetUserDetails
+        }
+      }
+      ... on UsersErrorResult {
+        message
+      }
     }
   }
 `;
@@ -111,7 +133,7 @@ function DisplaData() {
         </button>
       </div>
       {data &&
-        data?.users?.map((user, index) => {
+        data?.users?.users?.map((user, index) => {
           return (
             <div key={index}>
               <h1>Name: {user.name}</h1>

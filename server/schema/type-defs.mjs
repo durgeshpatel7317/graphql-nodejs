@@ -20,7 +20,8 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    users(id: ID): [User!]!
+    # Used union type as the return for users query
+    users(id: ID): UserResult!
     user(id: ID!): User
     movies: [Movie!]
     movie(name: String!): Movie
@@ -47,4 +48,32 @@ export const typeDefs = `#graphql
     updateUsername(updateUser: UpdateUsername!): User
     deleteUser(id: ID!): User
   }
+
+  type UsersSuccessResult {
+    users: [User!]
+  }
+
+  type UsersErrorResult {
+    message: String!
+  }
+
+  # Union type which can either be resolved to error or success
+  union UserResult = UsersSuccessResult | UsersErrorResult
 `;
+
+// Query for union type
+// query GetAllUsers {
+//   users {
+//     ...on UsersSuccessResult {
+//       users {
+//         id
+//         name
+//         age
+//         nationality
+//       }
+//     }
+//     ...on UsersErrorResult {
+//       message
+//     }
+//   }
+// }
